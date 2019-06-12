@@ -29,7 +29,7 @@ namespace Exemplo01
             // Desenvolvimento da tela de cadastro de carro
 
             SqlConnection conexao = new SqlConnection();
-            conexao.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=T:\Documentos\MeusCarros.mdf;Integrated Security=True;Connect Timeout=30"; 
+            conexao.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=T:\Documentos\MeusCarros.mdf;Integrated Security=True;Connect Timeout=30";
             conexao.Open();
 
             SqlCommand comando = new SqlCommand();
@@ -106,7 +106,7 @@ VALUES(@MODELO,@ANO,@PRECO,@COR)";
             DataTable tabela = new DataTable();
             tabela.Load(comando.ExecuteReader());
             dgvCarros.RowCount = 0;
-            for (int i=0;i<tabela.Rows.Count;i++)
+            for (int i = 0; i < tabela.Rows.Count; i++)
             {
                 DataRow linha = tabela.Rows[i];
                 Carro carro = new Carro();
@@ -119,14 +119,45 @@ VALUES(@MODELO,@ANO,@PRECO,@COR)";
 
         private void Form1_Activated(object sender, EventArgs e)
         {
-             AtualizarTabela();
+            AtualizarTabela();
         }
 
         private void dgvCarros_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
-    }
 
+        private void btnApagar_Click(object sender, EventArgs e)
+        {
+
+
+            if (dgvCarros.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Cadastre um carro");
+                return;
+            }
+            DialogResult caixaDialogo = MessageBox.Show("Deseja realmente apagar?", "AVISO", MessageBoxButtons.YesNo);
+            if (caixaDialogo == DialogResult.Yes)
+            {
+
+
+                SqlConnection conexao = new SqlConnection();
+
+                conexao.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=T:\Documentos\MeusCarros.mdf;Integrated Security=True;Connect Timeout=30";
+                conexao.Open();
+                SqlCommand comando = new SqlCommand();
+                comando.Connection = conexao;
+                comando.CommandText =
+                    "DELETE FROM carros WHERE id=@ID";
+
+                int id = Convert.ToInt32(dgvCarros.CurrentRow.Cells[0].Value);
+                comando.Parameters.AddWithValue("@ID", id);
+                comando.ExecuteNonQuery();
+
+                conexao.Close();
+                AtualizarTabela();
+            }
+        }
+    }
 }
 

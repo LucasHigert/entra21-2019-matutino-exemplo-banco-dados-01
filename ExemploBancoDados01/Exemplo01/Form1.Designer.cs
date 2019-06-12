@@ -160,6 +160,7 @@
             this.dgvCarros.Location = new System.Drawing.Point(297, 42);
             this.dgvCarros.Name = "dgvCarros";
             this.dgvCarros.ReadOnly = true;
+            this.dgvCarros.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvCarros.Size = new System.Drawing.Size(362, 244);
             this.dgvCarros.TabIndex = 10;
             this.dgvCarros.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCarros_CellContentClick);
@@ -184,6 +185,7 @@
             this.btnApagar.TabIndex = 11;
             this.btnApagar.Text = "Apagar";
             this.btnApagar.UseVisualStyleBackColor = true;
+            this.btnApagar.Click += new System.EventHandler(this.btnApagar_Click);
             // 
             // Form1
             // 
